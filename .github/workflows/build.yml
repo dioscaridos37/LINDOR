@@ -25,19 +25,12 @@ jobs:
 
       - name: Unzip and Build
         run: |
-          echo "=== Files in root ==="
-          ls -la
           unzip -o LINDOR.zip
-          echo "=== After unzip ==="
-          ls -la
           cd LINDOR
-          echo "=== Inside LINDOR ==="
-          ls -la
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace --info
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: LINDOR.apk
