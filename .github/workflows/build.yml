@@ -18,19 +18,26 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: 'platform-tools platforms;android-35 build-tools;35.0.0 cmdline-tools;latest'
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0 cmdline-tools;latest'
 
       - name: Accept licenses
         run: yes | sdkmanager --licenses || true
 
       - name: Unzip and Build
         run: |
+          echo "=== Files in root ==="
+          ls -la
           unzip -o LINDOR.zip
+          echo "=== After unzip ==="
+          ls -la
           cd LINDOR
+          echo "=== Inside LINDOR ==="
+          ls -la
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace --info
 
       - name: Upload APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: LINDOR.apk
